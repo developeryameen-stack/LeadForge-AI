@@ -16,10 +16,13 @@
 import { Router } from "express";
 import authRoutes from "./auth.routes";
 import userPreferenceRoutes from "./userPreference.routes";
+import leadRoutes from "./lead.routes";
+
 
 const router = Router();
 
 router.use("/auth", authRoutes);
 router.use("/preferences", userPreferenceRoutes);
+router.use("/leads", leadRoutes);
 
 export default router;
