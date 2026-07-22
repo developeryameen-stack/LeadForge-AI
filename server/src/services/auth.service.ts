@@ -22,10 +22,38 @@ class AuthService {
     const user = await User.create({
       name,
       email,
-      password,
+     password,
     });
 
     // Generate JWT
+    const token = generateToken(user._id.toString());
+
+    return {
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        isVerified: user.isVerified,
+      },
+      token,
+    };
+  }
+
+  // 👇 Add this method here
+  async login(email: string, password: string) {
+    const user = await User.findOne({ email }).select("+password");
+
+    if (!user) {
+      throw new Error("Invalid email or password.");
+    }
+
+    const isPasswordValid = await user.comparePassword(password);
+
+    if (!isPasswordValid) {
+      throw new Error("Invalid email or password.");
+    }
+
     const token = generateToken(user._id.toString());
 
     return {

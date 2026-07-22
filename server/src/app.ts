@@ -14,7 +14,7 @@ app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
 
-app.use("/api", router);
+app.use("/api/v1", router);
 
 app.use(notFound);
 app.use(errorHandler);
