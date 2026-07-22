@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import authService from "../services/auth.service";
 import asyncHandler from "../utils/asyncHandler";
+import { AuthRequest } from "../middleware/auth.middleware";
 
 export const register = asyncHandler(
   async (req: Request, res: Response) => {
@@ -30,13 +31,29 @@ export const login = asyncHandler(
 );
 
 
-import { AuthRequest } from "../middleware/auth.middleware";
+// import { AuthRequest } from "../middleware/auth.middleware";
 
 export const getMe = asyncHandler(
   async (req: AuthRequest, res: Response) => {
     res.status(200).json({
       success: true,
       data: req.user,
+    });
+  }
+);
+
+
+export const updateProfile = asyncHandler(
+  async (req: AuthRequest, res: Response) => {
+    const result = await authService.updateProfile(
+      req.user._id.toString(),
+      req.body
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Profile updated successfully",
+      data: result,
     });
   }
 );

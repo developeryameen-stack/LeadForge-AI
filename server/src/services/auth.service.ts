@@ -7,6 +7,15 @@ interface RegisterUserData {
   password: string;
 }
 
+interface UpdateProfileData {
+  companyName?: string;
+  jobTitle?: string;
+  website?: string;
+  industry?: string;
+  country?: string;
+  timezone?: string;
+}
+
 class AuthService {
   async register(data: RegisterUserData) {
     const { name, email, password } = data;
@@ -67,6 +76,27 @@ class AuthService {
       token,
     };
   }
+
+
+  async updateProfile(userId: string, data: UpdateProfileData) {
+  const user = await User.findByIdAndUpdate(
+    userId,
+    {
+      $set: data,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  ).select("-password");
+
+  if (!user) {
+    throw new Error("User not found.");
+  }
+
+  return user;
+}
+
 }
 
 export default new AuthService();

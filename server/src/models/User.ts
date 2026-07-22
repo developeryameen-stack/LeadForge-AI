@@ -10,6 +10,13 @@ export interface IUser extends Document {
 
   isVerified: boolean;
 
+  companyName: string;
+  jobTitle: string;
+  website: string;
+  industry: string;
+  country: string;
+  timezone: string;
+
   comparePassword(candidatePassword: string): Promise<boolean>;
 
   createdAt: Date;
@@ -36,6 +43,7 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: true,
       minlength: 6,
+      select: false,
     },
 
     role: {
@@ -48,6 +56,39 @@ const userSchema = new Schema<IUser>(
       type: Boolean,
       default: false,
     },
+    
+    companyName: {
+  type: String,
+  default: "",
+},
+
+jobTitle: {
+  type: String,
+  default: "",
+},
+
+website: {
+  type: String,
+  default: "",
+},
+
+industry: {
+  type: String,
+  default: "",
+},
+
+country: {
+  type: String,
+  default: "",
+},
+
+timezone: {
+  type: String,
+  default: "",
+},
+
+    
+
   },
   {
     timestamps: true,
